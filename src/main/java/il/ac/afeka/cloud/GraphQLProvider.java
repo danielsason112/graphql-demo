@@ -13,6 +13,7 @@ import com.google.common.base.Charsets;
 import com.google.common.io.Resources;
 
 import graphql.GraphQL;
+import graphql.scalars.ExtendedScalars;
 import graphql.schema.GraphQLSchema;
 import graphql.schema.idl.RuntimeWiring;
 import graphql.schema.idl.SchemaGenerator;
@@ -29,6 +30,10 @@ public class GraphQLProvider {
 
 	private GraphQL graphQL;
 
+	/*
+	 * Create a new graphql.GraphQL instance. We will use this instance later to create our /graphql end-point,
+	 * by exposing it as a Spring Bean via the GraphQL() method.
+	 */
     @PostConstruct
     public void init() throws IOException {
         URL url = Resources.getResource("schema.graphqls");
@@ -37,6 +42,12 @@ public class GraphQLProvider {
         this.graphQL = GraphQL.newGraphQL(graphQLSchema).build();
     }
 
+
+    /*
+     * Create the GraphQLSchema instance using:
+     * 1. TypeDefinitionRegistry - the parsed version of the schema file.
+     * 2. RuntimeWiring - register the DataFetchers (resolvers) that actually fetches the data.
+     */
     private GraphQLSchema buildSchema(String sdl) {
     	TypeDefinitionRegistry typeRegistry = new SchemaParser().parse(sdl);
         RuntimeWiring runtimeWiring = buildWiring();
@@ -46,12 +57,16 @@ public class GraphQLProvider {
     
     private RuntimeWiring buildWiring() {
         return RuntimeWiring.newRuntimeWiring()
+        		.scalar(ExtendedScalars.Json)
                 .type(newTypeWiring("Query")
-                        .dataFetcher("recentPosts", graphQLDataFetchers.getRecentPostsFetcher()))
+                        .dataFetcher("recentPosts", graphQLDataFetchers.getRecentPostsDataFetcher())
+                        .dataFetcher("user", graphQLDataFetchers.getUserDataFetcher()))
                 .type(newTypeWiring("Post")
                 		.dataFetcher("user", graphQLDataFetchers.getUserByEmailDataFetcher()))
                 .type(newTypeWiring("Mutation")
-                        .dataFetcher("createUser", graphQLDataFetchers.createUser()))
+                        .dataFetcher("createUser", graphQLDataFetchers.getCreateUserDataFetcher())
+                        .dataFetcher("createPost", graphQLDataFetchers.getCreatePostDataFetcher())
+                        .dataFetcher("user", graphQLDataFetchers.getUserDataFetcher()))
                 .build();
     }
     
