@@ -22,9 +22,12 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-data-mongodb
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.3.7.RELEASE'
 	
-	implementation 'com.graphql-java:graphql-java:11.0' // NEW
-    implementation 'com.graphql-java:graphql-java-spring-boot-starter-webmvc:1.0' // NEW
-    implementation 'com.google.guava:guava:26.0-jre' // NEW
+	implementation 'com.graphql-java:graphql-java:11.0' // GrapgQL implementation core
+    implementation 'com.graphql-java:graphql-java-spring-boot-starter-webmvc:1.0' 
+    implementation 'com.google.guava:guava:26.0-jre' // For reading the schema file
+    
+    // Provides implementation fo additional GraphQL Scalars like Date, JSON, Time and more
+    implementation 'com.graphql-java:graphql-java-extended-scalars:1.0'
 	
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
