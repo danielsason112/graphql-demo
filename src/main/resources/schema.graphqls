@@ -1,0 +1,40 @@
+type Query {
+  recentPosts(size: Int = 10, page:Int = 0): [Post]
+}
+
+type Mutation {
+	createUser(input: UserInput): User
+}
+
+input UserInput {
+	email: String!
+	password: String!
+	first: String!
+	last: String!
+	birthdate: String!
+	roles: [String!]!
+}
+
+type Post {
+  user: User
+  product: Product
+  language: String
+  postingTimestamp: String
+  postContent: String
+}
+
+type User {
+	email: String
+	name: Name
+	birthdate: String
+	roles: [String]
+}
+
+type Name {
+	first: String
+	last: String
+}
+
+type Product {
+	id: String
+}
