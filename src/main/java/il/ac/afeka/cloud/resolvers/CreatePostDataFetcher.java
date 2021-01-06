@@ -1,4 +1,4 @@
-package il.ac.afeka.cloud;
+package il.ac.afeka.cloud.resolvers;
 
 import java.util.HashMap;
 import java.util.Map;
