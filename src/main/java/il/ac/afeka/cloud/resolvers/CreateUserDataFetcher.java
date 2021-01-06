@@ -35,6 +35,10 @@ public class CreateUserDataFetcher implements DataFetcher<User> {
 		String first = input.get("first").toString();
 		String last = input.get("last").toString();
 		Set<String> roles = new HashSet(((ArrayList)input.get("roles")));
+		
+		if (this.userDao.existsById(email)) {
+			throw new RuntimeException("Can not create user because user already exists.");
+		}
 					
 		// Create a new User Entity
 		User entity = new User(email, new Name(first, last), birthdate, password, roles);
