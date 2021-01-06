@@ -1,4 +1,4 @@
-package il.ac.afeka.cloud;
+package il.ac.afeka.cloud.resolvers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
