@@ -59,12 +59,14 @@ public class GraphQLProvider {
         return RuntimeWiring.newRuntimeWiring()
         		.scalar(ExtendedScalars.Json)
                 .type(newTypeWiring("Query")
-                        .dataFetcher("recentPosts", graphQLDataFetchers.getRecentPostsDataFetcher()))
+                        .dataFetcher("recentPosts", graphQLDataFetchers.getRecentPostsDataFetcher())
+                        .dataFetcher("user", graphQLDataFetchers.getUserDataFetcher()))
                 .type(newTypeWiring("Post")
                 		.dataFetcher("user", graphQLDataFetchers.getUserByEmailDataFetcher()))
                 .type(newTypeWiring("Mutation")
                         .dataFetcher("createUser", graphQLDataFetchers.getCreateUserDataFetcher())
-                        .dataFetcher("createPost", graphQLDataFetchers.getCreatePostDataFetcher()))
+                        .dataFetcher("createPost", graphQLDataFetchers.getCreatePostDataFetcher())
+                        .dataFetcher("user", graphQLDataFetchers.getUserDataFetcher()))
                 .build();
     }
     
